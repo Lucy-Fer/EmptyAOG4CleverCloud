@@ -1,6 +1,7 @@
 import {
     DialogflowConversation,
     MediaObject,
+    Suggestions,
     Image,
   } from 'actions-on-google'
 import { messages } from '../constants';
@@ -37,4 +38,6 @@ export const SongIntent  = (conv: DialogflowConversation) => {
         alt: 'Album cover of an ocean view',
       }),
     }));
+    conv.ask(new Suggestions(['Basic Card', 'List',
+      'Carousel', 'Browsing Carousel']));
   };
