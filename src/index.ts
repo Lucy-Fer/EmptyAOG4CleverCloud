@@ -15,7 +15,8 @@ import {
   welcomeIntent,
   byeIntent,
   weshIntent,
-  SongIntent
+  SongIntent,
+  Song2Intent
 } from './default/base.intent';
 
 const express = require('express');
@@ -36,5 +37,7 @@ app.intent('Help', helpIntent)
 app.intent('Wesh', weshIntent)
 
 app.intent('Song', SongIntent)
+
+app.intent('Song2', Song2Intent)
 
 express().use(bodyParser.json(), app).listen(8080);
