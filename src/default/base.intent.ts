@@ -30,12 +30,12 @@ export const SongIntent  = (conv: DialogflowConversation) => {
     }
     conv.ask('Ok voici une chanson.');
     conv.ask(new MediaObject({
-      name: 'Jazz in Paris',
+      name: 'Demi Portion',
       url: 'https://cdns-preview-8.dzcdn.net/stream/c-804d4dcfd35a1ab0d093ffd4b8a1a169-3.mp3',
-      description: 'A funky Jazz tune',
+      description: 'Mon dico vol.5',
       icon: new Image({
-        url: 'https://cdns-images.dzcdn.net/images/artist/7cf7a95fae65143e4aac76a1a9e68280/56x56-000000-80-0-0.jpg',
-        alt: 'Album cover of an ocean view',
+        url: 'https://cdns-images.dzcdn.net/images/artist/7cf7a95fae65143e4aac76a1a9e68280/500x500-000000-80-0-0.jpg',
+        alt: 'Album La bonne école',
       }),
     }));
     conv.ask(new Suggestions(['Basic Card', 'List',
