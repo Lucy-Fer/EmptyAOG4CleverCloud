@@ -28,16 +28,14 @@ export const SongIntent  = (conv: DialogflowConversation) => {
         conv.ask('Which response would you like to see next?');
         return;
     }
-    conv.ask('This is a media response example.');
+    conv.ask('Ok voici une chanson.');
     conv.ask(new MediaObject({
       name: 'Jazz in Paris',
-      url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
+      url: 'https://youtu.be/pDn0lzevy6k',
       description: 'A funky Jazz tune',
       icon: new Image({
         url: 'https://storage.googleapis.com/automotive-media/album_art.jpg',
         alt: 'Album cover of an ocean view',
       }),
     }));
-    conv.ask(new Suggestions(['Basic Card', 'List',
-      'Carousel', 'Browsing Carousel']));
   };
