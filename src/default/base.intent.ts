@@ -40,6 +40,13 @@ export const SongIntent  = (conv: DialogflowConversation) => {
     }));
     conv.ask(new Suggestions(['Basic Card', 'List',
       'Carousel', 'Browsing Carousel']));
+      const mediaStatus = conv.arguments.get('MEDIA_STATUS');
+      let response = 'Unknown media status received.';
+      if (mediaStatus && mediaStatus.status === 'FINISHED') {
+        response = 'Hope you enjoyed the tune!';
+      }
+      conv.ask(response);
+      conv.ask('Which response would you like to see next?');
   };
   export const Song2Intent  = (conv: DialogflowConversation) => {
     if (!conv.surface.capabilities
