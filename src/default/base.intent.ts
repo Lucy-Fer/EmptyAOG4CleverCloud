@@ -38,15 +38,6 @@ export const SongIntent  = (conv: DialogflowConversation) => {
         alt: 'Album La bonne école',
       }),
     }));
-    conv.ask(new MediaObject({
-        name: 'Therapie TAXI',
-        url: 'https://cdns-preview-c.dzcdn.net/stream/c-c16a5ee3f2dfc10a8f64948d2d14b676-3.mp3',
-        description: 'Salope',
-        icon: new Image({
-          url: 'https://e-cdns-images.dzcdn.net/images/cover/0bb30d5a22e0fa69e169f8bdaa448dcd/500x500-000000-80-0-0.jpg',
-          alt: 'Album Hit sale',
-        })
-    })),
     conv.ask(new Suggestions(['Basic Card', 'List',
       'Carousel', 'Browsing Carousel']));
   };
