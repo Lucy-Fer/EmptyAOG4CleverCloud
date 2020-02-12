@@ -14,3 +14,7 @@ export const welcomeIntent = (conv: DialogflowConversation) => {
 export const byeIntent = (conv: DialogflowConversation) => {
     conv.ask(messages.goodbye);    
 }
+
+export const weshIntent = (conv: DialogflowConversation) => {
+    conv.ask(messages.wesh);
+}

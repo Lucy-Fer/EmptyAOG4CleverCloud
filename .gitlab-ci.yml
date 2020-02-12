@@ -1,0 +1,93 @@
+# define a default docker image for all jobs
+# from https://github.com/trek10inc/gitlab-boilerplate-injector/blob/master/.gitlab-ci.yml
+image: node:8.10
+
+variables:
+    PROD_ACCOUNT: ""
+    PROD_STAGE_NAME: "prod"
+    PROD1_REGION: eu-west-1
+    STAGING_ACCOUNT: ""
+    STAGING_STAGE_NAME: dev
+    STAGING_REGION: eu-west-1
+    STAGING_SLS_STAGE_NAME: dev
+
+
+stages:
+    - install # install all npm dependencies
+    - test    # execute unit tests
+    - package # upload source code to S3
+    - deploy  # stage for deploying to staging
+
+npmInstallTest:
+    stage: install
+    script:
+        - npm install
+    # artifacts describe the result of the stage
+    # that can be used in consecutive stages
+    artifacts:
+        untracked: true  
+
+npmInstall:
+    stage: install
+    script:
+        - npm install --production
+    # artifacts describe the result of the stage
+    # that can be used in consecutive stages
+    artifacts:
+        untracked: true
+
+#linting:
+#    stage: test
+#    script:
+#        # install standardjs for linting
+#        - npm install -g standard
+#        - npm run-script lint
+
+unittesting:
+    stage: test
+    # use the artifcats of the 'npmInstall' job
+    dependencies:
+        - npmInstallTest
+    script:
+        # install dev-dependency mocha
+        - cd lambda
+        - npm test
+
+deploy:staging:
+  stage: deploy
+  dependencies:
+    - npmInstall
+  script:
+    - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    - cd /builds/stephanecastrec/EmptyAOG4CleverCloud
+    - npm install -g serverless
+    - ls
+    - sls deploy -v -s ${STAGING_SLS_STAGE_NAME//-/} --region ${REGION:-"eu-west-1"}
+  variables:
+    ACCOUNT: ${STAGING_ACCOUNT}
+    REGION: ${STAGING_REGION}
+    DEPLOYMENT_ROLE: "arn:aws:iam::${STAGING_ACCOUNT}:role/gitlab"
+    SLS_STAGE_NAME: ${STAGING_SLS_STAGE_NAME}
+  environment:
+    name: ${STAGING_SLS_STAGE_NAME}
+    #url: https://${CI_COMMIT_REF_SLUG}.something.com
+  only:
+    - master
+  when: manual
+  
+#deploy:prod:
+#  stage: deploy
+#  script:
+#    - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+#    - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+#    - cd /builds/stephane.castrec/HondellatteSkill
+#    - npm install -g serverless
+#    - ls
+#    - sls deploy -v -s prod --region ${REGION:-"eu-west-1"}
+#  environment:
+#    name: production
+#    url: https://example.com
+#  when: manual
+#  only:
+#  - master
